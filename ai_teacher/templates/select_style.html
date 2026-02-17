@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick Your AI Teacher</title>
+</head>
+<body>
+    <h1>Pick Your AI Teacher</h1>
+    <div class="container">
+        {% for style in styles %}
+        <div class="card">
+            <img src="{{style.avatar.url}}" alt="{{ style.name }}">
+            <h3>{{style.name}}</h3>
+            <p>{{style.description}}</p>
+            <button>Pick</button>
+        </div>
+        {% endfor %}
+    </div>
+    
+</body>
+</html>
