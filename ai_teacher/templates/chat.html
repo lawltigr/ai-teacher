@@ -19,6 +19,8 @@
     <a href="{% url 'select_style' %}">Go Back</a>
 </body>
 
+{% csrf_token %}
+
 <script>
     async function sendMessage() {
         const input = document.getElementById("userInput");
@@ -34,7 +36,7 @@
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_ token }}"
+                "X-CSRFToken": "{{ csrf_token }}"
             },
             body: JSON.stringify({ message: message })
         });
