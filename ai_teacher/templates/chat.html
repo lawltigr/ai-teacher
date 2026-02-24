@@ -11,12 +11,38 @@
         <img src="{{style.avatar.url }}" alt="{{ style.name }}">
     </div>
     <div class="chat-box">
-        <input type="text" placeholder="Ask something...">
-        <button>Send</button>
+        <div id="messages"></div>
+        <input type="text" placeholder="Ask something..." id="userInput">
+        <button onclick="sendMessage()">Send</button>
     </div>
     <br>
     <a href="{% url 'select_style' %}">Go Back</a>
 </body>
+
+<script>
+    async function sendMessage() {
+        const input = document.getElementById("userInput");
+        const message = input.value;
+
+        if (!message) return;
+
+        const messagesDiv = document.getElementById("messages");
+        messagesDiv.innerHTML += "<p><b>You: </b>" + message + "</p>";
+        input.value = "";
+
+        const response = await fetch("/ask/{{ style.id }}/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_ token }}"
+            },
+            body: JSON.stringify({ message: message })
+        });
+        const data = await response.json();
+        messagesDiv.innerHTML += "<p><b>{{ style.name }}: </b>" + data.answer + "</p>";
+    }
+</script>
+
 <style>
     body{
         text-align: center;
