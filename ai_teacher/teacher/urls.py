@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     path('', views.select_style, name='select_style'),
+    path('chat/<int:style_id>/', views.chat_view, name='chat'),
 ]

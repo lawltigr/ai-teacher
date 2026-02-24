@@ -9,11 +9,13 @@
     <h1>Pick Your AI Teacher</h1>
     <div class="container">
         {% for style in styles %}
-        <div class="card">
-            <img src="{{style.avatar.url}}" alt="{{ style.name }}">
-            <h3>{{style.name}}</h3>
-            <p>{{style.description}}</p>
-            <button>Pick</button>
+        <div class="card" style="max-width: 250px;">
+            <img src="{{style.avatar.url}}" alt="{{ style.name }}" style="max-width: 250px;">
+            <h3 style="margin: 5px 0; text-align: center;">{{style.name}}</h3>
+            <p style="margin: 5px 0; text-align: center;">{{style.description}}</p>
+            <a href="{% url 'chat' style.id %}" style="max-width: 250px;">
+                <button style="margin: 5px auto; color: black; background-color: rgb(101, 180, 186); border: none; border-radius: 5px;">Pick</button>
+            </a>
         </div>
         {% endfor %}
     </div>
