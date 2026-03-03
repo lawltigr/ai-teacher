@@ -130,4 +130,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-OPEN_AI_KEY = "key"
+OPENAI_API_KEY = "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"
