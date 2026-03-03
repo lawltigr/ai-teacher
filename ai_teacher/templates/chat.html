@@ -8,7 +8,7 @@
 <body>
     <h1>{{style.name}}</h1>
     <div class="avatar">
-        <img src="{{style.avatar.url }}" alt="{{ style.name }}">
+        <img src="{{style.avatar.url }}" alt="{{ style.name }}" id="avatar">
     </div>
     <div class="chat-box">
         <div id="messages"></div>
@@ -25,6 +25,7 @@
     async function sendMessage() {
         const input = document.getElementById("userInput");
         const message = input.value;
+        setAvatarState("thinking");
 
         if (!message) return;
 
@@ -41,7 +42,25 @@
             body: JSON.stringify({ message: message })
         });
         const data = await response.json();
+        if (!response.ok) {
+            messagesDiv.innerHTML += "<p style='color: red;'><b>Error:</b>" + data.error + "</p>"
+            return;
+        }
         messagesDiv.innerHTML += "<p><b>{{ style.name }}: </b>" + data.answer + "</p>";
+        setAvatarState("speaking");
+        setTimeout(() => setAvatarState("idle"), 1000);
+    }
+    function setAvatarState(state){
+        const avatar = document.getElementById("avatar");
+        if (state=== "thinking"){
+            avatar.style.filter = "grayscale(100%)";
+        }
+        else if (state === "speaking"){
+            avatar.style.filter = "brightness(120%)";
+        }
+        else{
+            avatar.style.filter = "none";
+        }
     }
 </script>
 
