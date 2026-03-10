@@ -50,11 +50,15 @@
         messagesDiv.innerHTML += `
         <p>
         <b>{{style.name}}</b> ${data.answer}
-        <button onclick="speak('${data.answer.replace(/'/g, "\\'")}')">Speak</button>
+        <button class="speak-btn">Speak</button>
         </p>
         `;
-        const audio = new Audio("data:audio/mp3;base64," + data.audio);
-        audio.play();
+        const buttons = document.querySelectorAll(".speak-btn");
+        const lastButton = buttons[buttons.length - 1];
+        lastButton.onclick = () => speak(data.answer);
+        // <button onclick="speak('${data.answer}')">Speak</button>
+        // const audio = new Audio("data:audio/mp3;base64," + data.audio);
+        // audio.play();
         setAvatarState("speaking");
         setTimeout(() => setAvatarState("idle"), 1000);
     }

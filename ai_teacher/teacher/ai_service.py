@@ -22,4 +22,4 @@ def generate_voice(text):
         # voice="sage",
         input=text
     )
-    return speech
+    return speech.content
