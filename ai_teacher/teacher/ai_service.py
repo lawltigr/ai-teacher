@@ -12,3 +12,14 @@ def generate_answer(style, user_message):
         ]
     )
     return response.choices[0].message.content
+
+def generate_voice(text):
+    speech = client.audio.speech.create(
+        model="gpt-4o-mini-tts",
+        voice="alloy",
+        # voice="verse",
+        # voice="coral",
+        # voice="sage",
+        input=text
+    )
+    return speech

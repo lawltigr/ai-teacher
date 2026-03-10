@@ -46,7 +46,15 @@
             messagesDiv.innerHTML += "<p style='color: red;'><b>Error:</b>" + data.error + "</p>"
             return;
         }
-        messagesDiv.innerHTML += "<p><b>{{ style.name }}: </b>" + data.answer + "</p>";
+        // messagesDiv.innerHTML += "<p><b>{{ style.name }}: </b>" + data.answer + "</p>";
+        messagesDiv.innerHTML += `
+        <p>
+        <b>{{style.name}}</b> ${data.answer}
+        <button onclick="speak('${data.answer.replace(/'/g, "\\'")}')">Speak</button>
+        </p>
+        `;
+        const audio = new Audio("data:audio/mp3;base64," + data.audio);
+        audio.play();
         setAvatarState("speaking");
         setTimeout(() => setAvatarState("idle"), 1000);
     }
@@ -61,6 +69,18 @@
         else{
             avatar.style.filter = "none";
         }
+    }
+    async function speak(text){
+        const response = await fetch("/speak/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({text:text})
+        })
+        const data = await response.json();
+        const audio = new Audio("data:audio/mp3;base64," + data.audio);
+        audio.play();
     }
 </script>
 
