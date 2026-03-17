@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.158/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
     <h1>{{style.name}}</h1>
@@ -108,10 +109,18 @@
     const ambient = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambient);
 
-    const geometry = new THREE.SphereGeometry(0.5,32,32);
-    const material = new THREE.MeshStandardMaterial({color:0x44aa88});
-    const head = new THREE.Mesh(geometry, material);
-    scene.add(head);
+    // const geometry = new THREE.SphereGeometry(0.5,32,32);
+    // const material = new THREE.MeshStandardMaterial({color:0x44aa88});
+    // const head = new THREE.Mesh(geometry, material);
+    // scene.add(head);
+    let head;
+    const loader = new THREE.GLTFLoader();
+    loader.load(
+        "/static/models/laura-in-bloom/source/model.glb",
+        function(gltf){
+            // start from here
+        }
+    )
     function animate(){
         requestAnimationFrame(animate);
         head.rotation.y += 0.01;
