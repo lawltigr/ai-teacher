@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.158/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.158/examples/js/loaders/GLTFLoader.js"></script> -->
 </head>
 <body>
     <h1>{{style.name}}</h1>
@@ -89,6 +89,11 @@
         const audio = new Audio("data:audio/mp3;base64," + data.audio);
         audio.play();
     }
+</script>
+<script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js';
+    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.158/examples/jsm/loaders/GLTFLoader.js';
+
     const container = document.getElementById("avatar3d");
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -118,12 +123,22 @@
     loader.load(
         "/static/models/laura-in-bloom/source/model.glb",
         function(gltf){
-            // start from here
+            head = gltf.scene;
+            head.scale.set(1.5, 1.5, 1.5);
+            head.position.y = -0.5;
+            scene.add(head);
+        },
+        undefined,
+        function(error){
+            console.error("Model load error", error);
         }
     )
     function animate(){
         requestAnimationFrame(animate);
-        head.rotation.y += 0.01;
+        if (head){
+            head.rotation.y += 0.005;
+        }
+        
         renderer.render(scene,camera);
     }
     animate();
