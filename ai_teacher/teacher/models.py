@@ -5,6 +5,7 @@ class TeachingStyle(models.Model):
     description = models.TextField()
     avatar = models.ImageField(upload_to='avatars/')
     prompt_template = models.TextField()
+    voice = models.CharField(max_length=50, default="alloy")
 
     def __str__(self):
         return self.name

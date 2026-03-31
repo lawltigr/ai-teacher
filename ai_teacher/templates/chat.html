@@ -11,6 +11,12 @@
         <!-- <img src="{{style.avatar.url }}" alt="{{ style.name }}" id="avatar"> -->
         <div id="avatar3d"></div>
     </div>
+    <select id="voiceSelect">
+        <option value="alloy">Alloy</option>
+        <option value="verse">Verse</option>
+        <option value="coral">Coral</option>
+        <option value="sage">Sage</option>
+    </select>
     <div class="chat-box">
         <div id="messages"></div>
         <input type="text" placeholder="Ask something..." id="userInput">
@@ -87,7 +93,7 @@
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({text:text})
+            body: JSON.stringify({text:text, voice: "{{style.voice}}"})
         })
         const data = await response.json();
         const audio = new Audio("data:audio/mp3;base64," + data.audio);

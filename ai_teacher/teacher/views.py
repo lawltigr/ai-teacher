@@ -33,7 +33,8 @@ def speak_text(request):
         try:
             data = json.loads(request.body)
             text = data.get("text")
-            audio_bytes = generate_voice(text)
+            voice = data.get("voice", "alloy")
+            audio_bytes = generate_voice(text, voice)
             audio_base64 = base64.b64encode(audio_bytes).decode("utf-8")
             return JsonResponse({"audio": audio_base64})
         except Exception as e:
