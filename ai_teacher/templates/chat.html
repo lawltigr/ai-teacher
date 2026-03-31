@@ -23,6 +23,7 @@
 {% csrf_token %}
 
 <script>
+    let isSpeaking = false;
     let head = null;
     async function sendMessage() {
         const input = document.getElementById("userInput");
@@ -90,6 +91,10 @@
         })
         const data = await response.json();
         const audio = new Audio("data:audio/mp3;base64," + data.audio);
+        isSpeaking = true;
+        audio.onended = () => {
+            isSpeaking = false;
+        };
         audio.play();
     }
 </script>
@@ -121,13 +126,18 @@
     // const material = new THREE.MeshStandardMaterial({color:0x44aa88});
     // const head = new THREE.Mesh(geometry, material);
     // scene.add(head);
-    head=gltf.scene;
+
+    let faceMesh = null;
+    
     const loader = new GLTFLoader();
     loader.load(
         "/static/models/laura-in-bloom/source/model.glb",
         function(gltf){
             head = gltf.scene;
             head.traverse((child) => {
+                // if (child.isMesh && !faceMesh) {
+                //     faceMesh = child;
+                // }
                 if (child.isMesh) {
                     child.material = new THREE.MeshStandardMaterial({
                         map: child.material.map || null
@@ -144,6 +154,7 @@
         }
     )
     let time=0;
+    let mouthTime = 0;
 
     function animate(){
         requestAnimationFrame(animate);
@@ -152,6 +163,15 @@
             head.rotation.y = Math.sin(time) * 0.3;
             head.rotation.x = Math.sin(time * 0.7) * 0.1;
         }
+        // if (faceMesh){
+        //     if(isSpeaking){
+        //         mouthTime += 0.3;
+        //         const scale = 1+Math.abs(Math.sin(mouthTime)) * 0.15;
+        //         faceMesh.scale.y = scale;
+        //     } else{
+        //         faceMesh.scale.y = 1;
+        //     }
+        // }
         
         renderer.render(scene,camera);
     }
