@@ -20,7 +20,7 @@
     <div class="chat-box">
         <div id="messages"></div>
         <input type="text" placeholder="Ask something..." id="userInput">
-        <button onclick="sendMessage()">Send</button>
+        <button onclick="sendMessage()" id="messageSend">Send</button>
     </div>
     <br>
     <a href="{% url 'select_style' %}">Go Back</a>
@@ -88,14 +88,20 @@
         }
     }
     async function speak(text){
+        const voice = document.getElementById("voiceSelect").value;
         const response = await fetch("/speak/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({text:text, voice: "{{style.voice}}"})
+            body: JSON.stringify({text:text, voice:voice})
         })
         const data = await response.json();
+        if (!response.ok) {
+            console.error("Server error:", data.error);
+            alert(data.error);
+            return;
+        }
         const audio = new Audio("data:audio/mp3;base64," + data.audio);
         isSpeaking = true;
         audio.onended = () => {
@@ -211,6 +217,34 @@
         width: 100%;
         justify-content: center;
         align-items: center;
+        margin: 0;
+    } h1{
+        margin: 10px auto;
+        color: rgb(15, 48, 48);
+    }
+    .avatar{
+        margin: 0;
+    }
+    #voiceSelect, #messageSend{
+        margin: 20px auto;
+        padding: 5px 10px;
+        border: 1px solid rgb(15, 48, 48);
+        border-radius: 8px;
+        font-size: 20px;
+        background-color: rgb(172, 231, 231);
+        color: rgb(15, 48, 48);
+    }
+    #userInput{
+        
+    }
+    a{
+        color: rgb(172, 231, 231);
+        background-color: rgb(15, 48, 48);
+        padding: 5px 10px;
+        border-radius: 8px;
+        border: 1px solid rgb(172, 231, 231);
+        text-decoration: none;
+        font-size: 20px;
     }
 </style>
 </html>
